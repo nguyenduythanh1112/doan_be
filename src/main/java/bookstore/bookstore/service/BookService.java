@@ -1,10 +1,13 @@
 package bookstore.bookstore.service;
 
 import bookstore.bookstore.model.BookModel;
+import bookstore.bookstore.repository.BookItemRepository;
 import bookstore.bookstore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -12,6 +15,8 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private BookItemRepository bookItemRepository;
     private boolean validate(BookModel bookModel){
         return bookModel.getTitle()!=null&&!bookModel.getTitle().trim().equals("")&&
             bookModel.getSummary()!=null&&!bookModel.getSummary().trim().equals("")&&
@@ -27,19 +32,46 @@ public class BookService {
             bookModel.getAuthor()!=null&&!bookModel.getAuthor().trim().equals("")&&
             bookModel.getCategory()!=null&&!bookModel.getCategory().trim().equals("");
     }
-
-
     public BookModel save(BookModel bookModel){
         if(validate(bookModel)) return bookRepository.save(bookModel);
         return null;
     }
-    public void delete(int id){
-        bookRepository.deleteById(id);
+    public void deleteById(int id){
+        try{
+            BookModel bookModel=findById(id);
+            if(bookModel!=null&&bookModel.getBookItemModel()!=null){
+                bookItemRepository.deleteById(bookModel.getBookItemModel().getId());
+            }
+            bookRepository.deleteById(id);
+        }
+        catch (Exception exception){
+            System.out.println("Not Existed");
+        }
+
     }
     public  BookModel findById(int id){
-        return bookRepository.findById(id).get();
+        try{return bookRepository.findById(id).get();}
+        catch (Exception exception){return null;}
     }
     public List<BookModel> findAll(){
         return bookRepository.findAll();
     }
+
+    public List<BookModel> findPostedBook(){
+        List<BookModel> bookModels=findAll();
+        List<BookModel> result=new ArrayList<>();
+        for(BookModel bookModel:bookModels){
+            if(bookModel.getBookItemModel()!=null)result.add(bookModel);
+        }
+        return result;
+    }
+    public List<BookModel> findNotPostedBook(){
+        List<BookModel> bookModels=findAll();
+        List<BookModel> result=new ArrayList<>();
+        for(BookModel bookModel:bookModels){
+            if(bookModel.getBookItemModel()==null)result.add(bookModel);
+        }
+        return result;
+    }
+
 }

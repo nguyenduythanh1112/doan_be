@@ -21,7 +21,7 @@ public class BookItemModel {
     private float discount;
     private String status;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "book_model_id")
     private BookModel bookModel;
 

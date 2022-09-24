@@ -23,36 +23,33 @@ public class BookController {
     @PostMapping
     public ResponseEntity<?> create(@ModelAttribute BookModel bookModel){
         BookModel bm=bookService.save(bookModel);
-        if(bm==null) return (ResponseEntity<?>) ResponseEntity.badRequest();
+        if(bm==null) return  ResponseEntity.badRequest().body("Error");
         return ResponseEntity.ok(bm);
     }
 
     @PutMapping
     public ResponseEntity<?> update(@ModelAttribute BookModel bookModel){
         BookModel bm=bookService.save(bookModel);
-        if(bm==null) return (ResponseEntity<?>) ResponseEntity.badRequest();
+        if(bm==null) return ResponseEntity.badRequest().body("Error");
         return ResponseEntity.ok(bm);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id){
-        try{
-            int ID=Integer.parseInt(id);
-            bookService.delete(ID);
-            return (ResponseEntity<?>) ResponseEntity.ok();
-        }catch (Exception exception){
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
-        }
+    @DeleteMapping
+    public ResponseEntity<?> deleteById(@RequestParam int id){
+        try{bookService.deleteById(id);return ResponseEntity.ok("Success");}
+        catch (Exception exception){return ResponseEntity.badRequest().body("Not existed");}
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id){
-        try{
-            int ID=Integer.parseInt(id);
-            return (ResponseEntity<?>) ResponseEntity.ok(bookService.findById(ID));
-        }catch (Exception exception){
-            return (ResponseEntity<?>) ResponseEntity.badRequest();
-        }
+    public ResponseEntity<?> findById(@PathVariable int id){
+        BookModel bookModel=bookService.findById(id);
+        if(bookModel==null) return ResponseEntity.badRequest().body("Not exist");
+        return ResponseEntity.ok(bookModel);
+    }
+
+    @GetMapping("/postedbook")
+    public ResponseEntity<?> findById(){
+        return  ResponseEntity.ok(bookService.findPostedBook());
     }
 
 }
