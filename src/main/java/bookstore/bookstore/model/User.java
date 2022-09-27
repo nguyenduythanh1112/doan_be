@@ -2,11 +2,9 @@ package bookstore.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +29,10 @@ public class User implements UserDetails {
     private String password;
     private String role;
     private String email;
+
+    @OneToOne
+    @JoinColumn(name = "cart_model_id")
+    private CartModel cartModel;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

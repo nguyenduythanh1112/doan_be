@@ -7,13 +7,16 @@ import bookstore.bookstore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import java.util.List;
+
 
 @Service
 public class BookItemService {
 
     @Autowired
     private BookItemRepository bookItemRepository;
+
     @Autowired
     private BookRepository bookRepository;
     private BookModel validate(BookItemModel bookItemModel, int idBookModel){
@@ -40,12 +43,17 @@ public class BookItemService {
         }
         return null;
     }
+
+
     public void delete(int id){
+
         try{
-            bookItemRepository.deleteById(id);
+            BookItemModel bookItemModel=findById(id);
+            bookItemModel.setBookModel(null);
+            bookItemRepository.save(bookItemModel);
         }
         catch (Exception exception){
-            System.out.println("Existed");
+            System.out.println(exception.getMessage());
         }
 
     }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class BookService {
         if(validate(bookModel)) return bookRepository.save(bookModel);
         return null;
     }
+    @Transactional
     public void deleteById(int id){
         try{
             BookModel bookModel=findById(id);

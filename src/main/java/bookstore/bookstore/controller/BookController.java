@@ -21,18 +21,18 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@ModelAttribute BookModel bookModel){
-        BookModel bm=bookService.save(bookModel);
-        if(bm==null) return  ResponseEntity.badRequest().body("Error");
+    public ResponseEntity<?> create(@ModelAttribute BookModel bookModel) {
+        BookModel bm = bookService.save(bookModel);
+        if (bm == null) return ResponseEntity.badRequest().body("Error");
         return ResponseEntity.ok(bm);
     }
-
     @PutMapping
     public ResponseEntity<?> update(@ModelAttribute BookModel bookModel){
         BookModel bm=bookService.save(bookModel);
         if(bm==null) return ResponseEntity.badRequest().body("Error");
         return ResponseEntity.ok(bm);
     }
+
 
     @DeleteMapping
     public ResponseEntity<?> deleteById(@RequestParam int id){
