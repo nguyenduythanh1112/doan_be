@@ -54,7 +54,7 @@ public class BookItemController {
         return ResponseEntity.ok(bookItemService.findByStatus("no"));
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(int id){
+    public ResponseEntity<?> findById(@PathVariable int id){
         BookItemModel bookItemModel=bookItemService.findById(id);
         if(bookItemModel==null) return ResponseEntity.badRequest().body("Not existed");
         return ResponseEntity.ok(bookItemModel);

@@ -7,11 +7,12 @@ import bookstore.bookstore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 import java.util.List;
 
 
 @Service
+@Transactional
 public class BookItemService {
 
     @Autowired
@@ -51,6 +52,7 @@ public class BookItemService {
             BookItemModel bookItemModel=findById(id);
             bookItemModel.setBookModel(null);
             bookItemRepository.save(bookItemModel);
+            bookItemRepository.deleteById(id);
         }
         catch (Exception exception){
             System.out.println(exception.getMessage());
