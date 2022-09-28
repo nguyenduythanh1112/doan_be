@@ -21,7 +21,6 @@ public class LineItemModel {
 
     @ManyToOne
     @JoinColumn(name="cart_model_id")
-    @JsonIgnore
     private CartModel cartModel;
 
     @ManyToOne

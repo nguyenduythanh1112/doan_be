@@ -34,4 +34,8 @@ public class BookModel {
     @OneToOne(mappedBy = "bookModel",cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private BookItemModel bookItemModel;
+
+    public int getRemainQuantity(){
+        return importedQuantity-exportedQuantity;
+    }
 }
