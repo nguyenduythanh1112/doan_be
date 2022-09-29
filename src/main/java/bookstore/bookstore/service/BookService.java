@@ -52,8 +52,7 @@ public class BookService {
 
     }
     public  BookModel findById(int id){
-        try{return bookRepository.findById(id).get();}
-        catch (Exception exception){return null;}
+        return bookRepository.findById(id).get();
     }
     public List<BookModel> findAll(){
         return bookRepository.findAll();

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -20,20 +21,20 @@ public class BookItemService {
 
     @Autowired
     private BookRepository bookRepository;
-    private BookModel validate(BookItemModel bookItemModel, int idBookModel){
-        if(idBookModel<=0) return null;
-        BookModel bookModel=bookRepository.findById(idBookModel).get();
-        if(bookModel!=null&&bookModel.getBookItemModel()==null) return bookModel;
-        return null;
-    }
     public BookItemModel save(BookItemModel bookItemModel, int idBookModel) throws Exception{
-        if(idBookModel<=0) return null;
-        BookModel bookModel=validate(bookItemModel,idBookModel);
-        if(bookModel!=null){
-            bookItemModel.setBookModel(bookModel);
-            return bookItemRepository.save(bookItemModel);
+        Optional bookModelOptional=bookRepository.findById(idBookModel);
+        if(bookModelOptional.isPresent()){
+            System.out.println("YES 1");
+            BookModel bookModel= (BookModel) bookModelOptional.get();
+            if(bookModel.getBookItemModel()==null||bookModel.getBookItemModel().getId()==bookItemModel.getId()) {
+                bookItemModel.setBookModel(bookModel);
+                bookItemRepository.save(bookItemModel);
+                System.out.println("bookItemModel "+bookItemModel);
+                return bookItemModel;
+            }
+            else throw new Exception("Error");
         }
-        return null;
+        else throw new Exception("Error");
     }
     public BookItemModel update(BookItemModel bookItemModel, int idBookModel) throws Exception{
         if(idBookModel<=0) return null;

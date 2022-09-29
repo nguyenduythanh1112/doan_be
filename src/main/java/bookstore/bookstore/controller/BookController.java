@@ -3,8 +3,12 @@ package bookstore.bookstore.controller;
 import bookstore.bookstore.model.BookModel;
 import bookstore.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/book")
@@ -15,41 +19,39 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping
-    @CrossOrigin
     public ResponseEntity<?> findAll(){
         return ResponseEntity.ok(bookService.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@ModelAttribute BookModel bookModel) {
+    public ResponseEntity<?> create(@Valid @ModelAttribute BookModel bookModel) {
         BookModel bm = bookService.save(bookModel);
-        if (bm == null) return ResponseEntity.badRequest().body("Error");
         return ResponseEntity.ok(bm);
     }
     @PutMapping
-    public ResponseEntity<?> update(@ModelAttribute BookModel bookModel){
+    public ResponseEntity<?> update(@Valid @ModelAttribute BookModel bookModel){
         BookModel bm=bookService.save(bookModel);
-        if(bm==null) return ResponseEntity.badRequest().body("Error");
         return ResponseEntity.ok(bm);
     }
 
-
     @DeleteMapping
     public ResponseEntity<?> deleteById(@RequestParam int id){
-        try{bookService.deleteById(id);return ResponseEntity.ok("Success");}
-        catch (Exception exception){return ResponseEntity.badRequest().body("Not existed");}
+        return ResponseEntity.ok("OK");
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable int id){
-        BookModel bookModel=bookService.findById(id);
-        if(bookModel==null) return ResponseEntity.badRequest().body("Not exist");
-        return ResponseEntity.ok(bookModel);
+        try {return ResponseEntity.ok(bookService.findById(id));}
+        catch (Exception exception){return ResponseEntity.badRequest().body("Not exist");}
     }
 
     @GetMapping("/postedbook")
-    public ResponseEntity<?> findById(){
+    public ResponseEntity<?> findPostedBook(){
         return  ResponseEntity.ok(bookService.findPostedBook());
     }
 
+    @GetMapping("/notpostedbook")
+    public ResponseEntity<?> findNotPostedBook(){
+        return  ResponseEntity.ok(bookService.findNotPostedBook());
+    }
 }
