@@ -3,20 +3,28 @@ package bookstore.bookstore.controller;
 import bookstore.bookstore.model.LineItemModel;
 import bookstore.bookstore.repository.LineItemRepository;
 import bookstore.bookstore.service.LineItemService;
+import bookstore.bookstore.util.JwtUtil;
+import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/lineitem")
+@CrossOrigin(origins = "*")
 public class LineItemController {
     @Autowired
     private LineItemService lineItemService;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @PostMapping
-    public ResponseEntity<?> create(@RequestParam int bookItemId, @RequestParam String username){
+    public ResponseEntity<?> save(HttpServletRequest request, @RequestParam int bookItemId){
+        String username= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
         try {
             LineItemModel lineItemModel = lineItemService.save(username,bookItemId);
             return ResponseEntity.ok(lineItemModel);
@@ -27,7 +35,8 @@ public class LineItemController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestParam int bookItemId, @RequestParam String username){
+    public ResponseEntity<?> update(HttpServletRequest request, @RequestParam int bookItemId){
+        String username= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
         try {
             LineItemModel lineItemModel = lineItemService.save(username,bookItemId);
             return ResponseEntity.ok(lineItemModel);
@@ -38,9 +47,10 @@ public class LineItemController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<?> findByUsername(@PathVariable String username){
+    public ResponseEntity<?> findByUsername(HttpServletRequest request,@PathVariable String username){
+        String usernameFromToken= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
         try {
-            List<LineItemModel> lineItemModels=lineItemService.findByUsername(username);
+            List<LineItemModel> lineItemModels=lineItemService.findByUsername(usernameFromToken);
             return ResponseEntity.ok(lineItemModels);
         }
         catch (Exception exception){

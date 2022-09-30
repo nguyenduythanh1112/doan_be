@@ -1,6 +1,7 @@
 package bookstore.bookstore.security.jwt;
 
 import bookstore.bookstore.model.User;
+import bookstore.bookstore.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

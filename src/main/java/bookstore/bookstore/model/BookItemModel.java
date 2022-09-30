@@ -19,8 +19,8 @@ public class BookItemModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String barcode;
-    private float exportedPrice;
-    private float discount;
+    private long exportedPrice;
+    private long discount;
     private String status;
 
     @OneToOne

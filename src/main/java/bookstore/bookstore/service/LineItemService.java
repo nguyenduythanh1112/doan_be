@@ -49,4 +49,9 @@ public class LineItemService {
     public List<LineItemModel> findByUsername(String username){
         return lineItemRepository.findByUsername(username);
     }
+
+    public List<LineItemModel> findByCartId(int cartId){
+        List<LineItemModel> lineItemModels = lineItemRepository.findByCartId(cartId);
+        return lineItemModels;
+    }
 }

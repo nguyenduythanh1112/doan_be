@@ -19,13 +19,12 @@ public class CartModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private double totalPrice;
+    private long totalPrice;
 
     @OneToOne(mappedBy = "cartModel")
     @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "cartModel")
-    @JsonIgnore
     private List<LineItemModel> lineItemModels;
 }
