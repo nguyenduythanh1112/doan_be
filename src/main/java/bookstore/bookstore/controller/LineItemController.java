@@ -34,6 +34,30 @@ public class LineItemController {
 
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<?> add(HttpServletRequest request, @RequestParam int bookItemId){
+        String username= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
+        try {
+            LineItemModel lineItemModel = lineItemService.add(username,bookItemId);
+            return ResponseEntity.ok(lineItemModel);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
+    @PostMapping("/subtract")
+    public ResponseEntity<?> subtract(HttpServletRequest request, @RequestParam int bookItemId){
+        String username= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
+        try {
+            LineItemModel lineItemModel = lineItemService.subtract(username,bookItemId);
+            return ResponseEntity.ok(lineItemModel);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
     @PutMapping
     public ResponseEntity<?> update(HttpServletRequest request, @RequestParam int bookItemId){
         String username= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
