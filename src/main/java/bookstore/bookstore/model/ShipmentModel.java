@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table
@@ -16,7 +17,11 @@ public class ShipmentModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String selectedShip;
+    private String name;
     private String description;
-    private String amount;
+    private long amount;
+
+    @OneToMany(mappedBy = "shipmentModel")
+    private List<OrderModel> orderModels;
+
 }

@@ -28,4 +28,9 @@ public class LineItemModel {
     @JoinColumn(name="book_item_model_id")
     private BookItemModel bookItemModel;
 
+    @ManyToOne
+    @JoinColumn(name="order_model_id")
+    @JsonIgnore
+    private OrderModel orderModel;
+
 }

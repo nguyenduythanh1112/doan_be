@@ -18,6 +18,7 @@ public class InformationModel {
     private int id;
     private String city;
     private String town;
+    private String ward;
     private String detailAddress;
     private String phoneNumber;
     private String name;

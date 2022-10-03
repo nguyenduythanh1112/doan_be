@@ -27,4 +27,7 @@ public class CartModel {
 
     @OneToMany(mappedBy = "cartModel")
     private List<LineItemModel> lineItemModels;
+
+    @OneToMany(mappedBy = "cartModel")
+    private List<OrderModel> orderModels;
 }

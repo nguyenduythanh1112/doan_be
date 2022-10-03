@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
+
 @Entity
 @Table
 @Data
@@ -18,4 +20,19 @@ public class OrderModel {
     private int id;
     private Date date;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_model_id")
+    private PaymentModel paymentModel;
+
+    @ManyToOne
+    @JoinColumn(name = "shipment_model_id")
+    private ShipmentModel shipmentModel;
+
+    @ManyToOne
+    @JoinColumn(name = "cart_model_id")
+    private CartModel cartModel;
+
+    @OneToMany(mappedBy = "orderModel")
+    private List<LineItemModel> lineItemModels;
 }
