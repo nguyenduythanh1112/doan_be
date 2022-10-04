@@ -68,7 +68,7 @@ public class OrderService {
 
         if(paymentModel.getType().equals("offline")) orderModel.setStatus("yes");
         else {
-            orderModel.setStatus("pending");
+            orderModel.setStatus("no");
             orderModel.setUrlToPay(vnPayService.makeUrlToPay(orderModel,request));
         }
         OrderModel om=orderRepository.save(orderModel);

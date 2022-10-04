@@ -7,26 +7,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table
 @Data
 @NoArgsConstructor
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class PaymentModel {
+public class TransactionModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private long amount;
-    private String description;
-    private String type;
-    @OneToMany(mappedBy = "paymentModel")
-    @JsonIgnore
-    private List<OrderModel> orderModels;
 
-    @OneToMany(mappedBy = "paymentModel")
+    private String bankCode;
+    private String bankTransactionNo;
+    private String identifyCode;
+    private String status;
+    private String date;
+
+    @ManyToOne
+    @JoinColumn(name = "order_model_id")
     @JsonIgnore
-    private List<TransactionModel> transactionModels;
+    private OrderModel orderModel;
+
+    @ManyToOne
+    @JoinColumn(name = "payment_model_id")
+    @JsonIgnore
+    private PaymentModel paymentModel;
+
+
 }

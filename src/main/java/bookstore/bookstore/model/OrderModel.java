@@ -44,5 +44,10 @@ public class OrderModel {
     private CartModel cartModel;
 
     @OneToMany(mappedBy = "orderModel")
+    @JsonIgnore
     private List<LineItemModel> lineItemModels;
+
+    @OneToMany(mappedBy = "orderModel")
+    @JsonIgnore
+    private List<TransactionModel> transactionModels;
 }
