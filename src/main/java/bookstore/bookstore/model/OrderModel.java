@@ -23,6 +23,7 @@ public class OrderModel {
     private String status;
     private String informationToShip;
     private String urlToPay;
+    private String identifyId;
     private long amount;
 
     public long getTotalPrice(){

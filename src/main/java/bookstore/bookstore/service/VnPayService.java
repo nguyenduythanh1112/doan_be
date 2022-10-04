@@ -30,7 +30,9 @@ public class VnPayService {
             vnp_Params.put("vnp_OrderType", "VN");
             vnp_Params.put("vnp_Locale", "vn");
             vnp_Params.put("vnp_TmnCode", VnPayConfig.vnp_TmnCode);
-            vnp_Params.put("vnp_TxnRef", VnPayConfig.getRandomNumber(8));
+            String identifyId=VnPayConfig.getRandomNumber(8);
+            vnp_Params.put("vnp_TxnRef", identifyId);
+            orderModel.setIdentifyId(identifyId);
             vnp_Params.put("vnp_ReturnUrl", VnPayConfig.vnp_Returnurl);
             vnp_Params.put("vnp_OrderInfo",VnPayConfig.getRandomNumber(8)+orderModel.getDate());
             vnp_Params.put("vnp_IpAddr", VnPayConfig.getIpAddress(request));

@@ -69,7 +69,6 @@ public class OrderService {
         if(paymentModel.getType().equals("offline")) orderModel.setStatus("yes");
         else {
             orderModel.setStatus("pending");
-            System.out.println(vnPayService.makeUrlToPay(orderModel,request));
             orderModel.setUrlToPay(vnPayService.makeUrlToPay(orderModel,request));
         }
         OrderModel om=orderRepository.save(orderModel);
@@ -84,4 +83,11 @@ public class OrderService {
         return orderRepository.save(orderModel);
     }
 
+    public OrderModel findByIdentifyId(String identifyId){
+        return orderRepository.findByIdentifyId(identifyId);
+    }
+
+    public OrderModel update(OrderModel orderModel){
+        return orderRepository.save(orderModel);
+    }
 }

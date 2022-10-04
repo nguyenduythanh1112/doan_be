@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -53,7 +54,6 @@ public class BookItemService {
             BookItemModel bookItemModel=findById(id);
             bookItemModel.setBookModel(null);
             bookItemRepository.save(bookItemModel);
-            bookItemRepository.deleteById(id);
         }
         catch (Exception exception){
             System.out.println(exception.getMessage());
@@ -61,7 +61,10 @@ public class BookItemService {
 
     }
     public List<BookItemModel> findAll(){
-        return bookItemRepository.findAll();
+        return bookItemRepository.findAll()
+                .stream()
+                .filter(bookItemModel -> bookItemModel.getBookModel()!=null)
+                .collect(Collectors.toList());
     }
 
     public BookItemModel findById(int id){
@@ -74,6 +77,10 @@ public class BookItemService {
     }
 
     public List<BookItemModel> findByStatus(String status){
-        return bookItemRepository.findByStatus(status);
+        return bookItemRepository
+                .findByStatus(status)
+                .stream()
+                .filter(bookItemModel -> bookItemModel.getBookModel()!=null)
+                .collect(Collectors.toList());
     }
 }

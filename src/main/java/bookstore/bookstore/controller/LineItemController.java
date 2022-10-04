@@ -81,4 +81,16 @@ public class LineItemController {
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> delete(HttpServletRequest request, @RequestParam int bookItemId){
+        String username= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
+        try {
+            lineItemService.delete(username,bookItemId);
+            return ResponseEntity.ok("Success");
+        }
+        catch (Exception exception){
+            return ResponseEntity.badRequest().body("Error");
+        }
+    }
 }

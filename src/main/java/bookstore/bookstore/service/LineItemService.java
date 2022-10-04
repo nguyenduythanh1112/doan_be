@@ -105,4 +105,14 @@ public class LineItemService {
         }
         return lineItemModelResults;
     }
+
+    public void delete(String username,int bookItemId) throws Exception{
+        CartModel cartModel=cartRepository.findByUsername(username);
+        if(cartModel==null) throw new Exception("cart not found");
+        LineItemModel lineItemModel=lineItemRepository.findByCartIdAndBookItemId(cartModel.getId(),bookItemId);
+        if(lineItemModel==null) throw new Exception("line item not found");
+        lineItemModel.setCartModel(null);
+        lineItemRepository.save(lineItemModel);
+    }
+
 }
