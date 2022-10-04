@@ -34,6 +34,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "cart_model_id")
     private CartModel cartModel;
 
+    @OneToOne
+    @JoinColumn(name = "information_model_id",referencedColumnName = "id")
+    private InformationModel informationModel ;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<SimpleGrantedAuthority> simpleGrantedAuthoritys=new ArrayList<>();

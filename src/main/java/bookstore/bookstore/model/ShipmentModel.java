@@ -1,6 +1,7 @@
 package bookstore.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class ShipmentModel {
     private long amount;
 
     @OneToMany(mappedBy = "shipmentModel")
+    @JsonIgnore
     private List<OrderModel> orderModels;
 
 }
