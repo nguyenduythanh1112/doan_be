@@ -30,12 +30,12 @@ public class User implements UserDetails {
     private String role;
     private String email;
 
-    @OneToOne
+    @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "cart_model_id")
     private CartModel cartModel;
 
     @OneToOne
-    @JoinColumn(name = "information_model_id",referencedColumnName = "id")
+    @JoinColumn(name = "information_model_id")
     private InformationModel informationModel ;
 
     @Override

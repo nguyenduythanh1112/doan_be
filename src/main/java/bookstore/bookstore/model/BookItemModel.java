@@ -31,4 +31,6 @@ public class BookItemModel {
     @OneToMany(mappedBy = "bookItemModel", cascade = CascadeType.ALL)
     private List<LineItemModel> lineItemModels;
 
+
+
 }

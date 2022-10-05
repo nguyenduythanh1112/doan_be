@@ -46,7 +46,9 @@ public class Config extends WebSecurityConfigurerAdapter {
         http.cors().and()
             .csrf().disable()
             .authorizeRequests()
+            .antMatchers("/api/user/login").permitAll()
             .antMatchers("/login").permitAll()
+            .antMatchers("/api/user/register").permitAll()
             .anyRequest().authenticated().and()
             .formLogin().disable()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

@@ -51,7 +51,6 @@ public class OrderService {
 
 
 
-
         OrderModel orderModel=new OrderModel();
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -76,6 +75,10 @@ public class OrderService {
             lineItemModel.setOrderModel(om);
             lineItemRepository.save(lineItemModel);
         }
+
+        System.out.println("Save order ok");
+        System.out.println(om.getId());
+
         return om;
     }
 

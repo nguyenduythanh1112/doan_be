@@ -23,6 +23,6 @@ public class InformationModel {
     private String phoneNumber;
     private String name;
 
-    @OneToOne(mappedBy = "informationModel",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "informationModel",cascade = CascadeType.ALL)
     private User user;
 }

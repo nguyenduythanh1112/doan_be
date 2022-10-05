@@ -17,15 +17,41 @@ public class InformationService {
 
     public InformationModel save(InformationModel informationModel, String username) throws Exception{
 
-//        InformationModel ifm=informationRepository.findByUsername(username);
-//        if(ifm==null) ifm=informationModel;
-//        else informationModel.setId(ifm.getId());
-//        informationRepository.save(informationModel);
-//
-//        User user=userRepository.findByUsername(username);
+        User user=userRepository.findByUsername(username);
+        if(user==null) throw new Exception("User not exist");
+
+        InformationModel ifm=informationRepository.findByUsername(username);
+        if(ifm==null) {
+            ifm=new InformationModel();
+            ifm.setUser(user);
+            ifm.setCity(informationModel.getCity());
+            ifm.setTown(informationModel.getTown());
+            ifm.setWard(informationModel.getWard());
+            ifm.setDetailAddress(informationModel.getDetailAddress());
+            ifm.setName(informationModel.getName());
+            ifm.setPhoneNumber(informationModel.getPhoneNumber());
+        }
+        else {
+            ifm.setCity(informationModel.getCity());
+            ifm.setTown(informationModel.getTown());
+            ifm.setWard(informationModel.getWard());
+            ifm.setDetailAddress(informationModel.getDetailAddress());
+            ifm.setName(informationModel.getName());
+            ifm.setPhoneNumber(informationModel.getPhoneNumber());
+        }
+
+        ifm.setUser(user);
+        informationRepository.save(ifm);
 //        user.setInformationModel(informationModel);
 //        userRepository.save(user);
 
         return informationModel;
     }
+
+    public InformationModel findByUsername(String username) throws Exception{
+        InformationModel informationModel=informationRepository.findByUsername(username);
+        if(informationModel==null) throw new Exception("Not found");
+        return informationModel;
+    }
+
 }
