@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.TimeZone;
 
 @RestController
@@ -27,7 +28,7 @@ public class OrderController {
     @Autowired
     private JwtUtil jwtUtil;
     @PostMapping
-    public ResponseEntity<?> findAll(
+    public ResponseEntity<?> save(
             HttpServletRequest request,
             int paymentId,
             int shipmentId,
@@ -41,6 +42,17 @@ public class OrderController {
         }
         catch (Exception exception){
             exception.printStackTrace();
+            return ResponseEntity.badRequest().body(exception.getMessage());
+        }
+    }
+    @GetMapping
+    public ResponseEntity<?> findByUsername(HttpServletRequest request){
+        try {
+            String username= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
+            if(username.toLowerCase().equals("admin")) return ResponseEntity.ok(orderService.findAll());
+            return ResponseEntity.ok(orderService.findByUsername(username));
+        }
+        catch (Exception exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
     }

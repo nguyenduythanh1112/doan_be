@@ -82,8 +82,12 @@ public class OrderService {
         return om;
     }
 
-    public OrderModel findAll(OrderModel orderModel){
-        return orderRepository.save(orderModel);
+    public List<OrderModel> findByUsername(String username){
+        return orderRepository.findByUsername(username);
+    }
+
+    public List<OrderModel> findAll(){
+        return orderRepository.findAll();
     }
 
     public OrderModel findByIdentifyId(String identifyId){
