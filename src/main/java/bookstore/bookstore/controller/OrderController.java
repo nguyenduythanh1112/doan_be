@@ -3,6 +3,7 @@ package bookstore.bookstore.controller;
 import bookstore.bookstore.model.InformationModel;
 import bookstore.bookstore.model.OrderModel;
 import bookstore.bookstore.service.InformationService;
+import bookstore.bookstore.service.UserService;
 import bookstore.bookstore.util.JwtUtil;
 import bookstore.bookstore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +50,16 @@ public class OrderController {
     public ResponseEntity<?> findByUsername(HttpServletRequest request){
         try {
             String username= jwtUtil.getUsernameFromToken(request.getHeader("Authorization"));
-            if(username.toLowerCase().equals("admin")) return ResponseEntity.ok(orderService.findAll());
             return ResponseEntity.ok(orderService.findByUsername(username));
         }
         catch (Exception exception){
             return ResponseEntity.badRequest().body(exception.getMessage());
         }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> saveOrderById(@RequestParam int id, @RequestParam String status){
+        try {return ResponseEntity.ok(orderService.saveOrderById(id,status));}
+        catch (Exception exception){return ResponseEntity.badRequest().body(exception.getMessage());}
     }
 }

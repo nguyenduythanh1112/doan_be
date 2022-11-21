@@ -33,6 +33,8 @@ public class OrderService {
     @Autowired
     private VnPayService vnPayService;
 
+    @Autowired
+    private UserRepository userRepository;
     public OrderModel save(
             int paymentId,
             String username,
@@ -83,11 +85,18 @@ public class OrderService {
     }
 
     public List<OrderModel> findByUsername(String username){
+        if(userRepository.findByUsername(username).getRole().toLowerCase().equals("admin")) return orderRepository.findAll();
         return orderRepository.findByUsername(username);
     }
 
     public List<OrderModel> findAll(){
         return orderRepository.findAll();
+    }
+
+    public OrderModel saveOrderById(int id, String status){
+        OrderModel orderModel=orderRepository.findById(id).get();
+        orderModel.setStatus(status);
+        return orderRepository.save(orderModel);
     }
 
     public OrderModel findByIdentifyId(String identifyId){
