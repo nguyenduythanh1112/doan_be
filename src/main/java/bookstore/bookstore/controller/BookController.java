@@ -36,6 +36,7 @@ public class BookController {
 
     @DeleteMapping
     public ResponseEntity<?> deleteById(@RequestParam int id){
+        bookService.deleteById(id);
         return ResponseEntity.ok("OK");
     }
 
