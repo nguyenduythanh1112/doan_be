@@ -25,12 +25,12 @@ public class BookItemService {
     public BookItemModel save(BookItemModel bookItemModel, int idBookModel) throws Exception{
         Optional bookModelOptional=bookRepository.findById(idBookModel);
         if(bookModelOptional.isPresent()){
-            System.out.println("YES 1");
+            System.out.println("YES :"+idBookModel);
             BookModel bookModel= (BookModel) bookModelOptional.get();
+            System.out.println("YES1 :"+idBookModel);
             if(bookModel.getBookItemModel()==null||bookModel.getBookItemModel().getId()==bookItemModel.getId()) {
                 bookItemModel.setBookModel(bookModel);
                 bookItemRepository.save(bookItemModel);
-                System.out.println("bookItemModel "+bookItemModel);
                 return bookItemModel;
             }
             else throw new Exception("Error");

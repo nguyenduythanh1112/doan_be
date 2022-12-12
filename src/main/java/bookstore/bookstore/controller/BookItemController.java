@@ -18,7 +18,7 @@ public class BookItemController {
     }
     @PostMapping
     public ResponseEntity<?> save(@ModelAttribute BookItemModel bookItemModel, @RequestParam int bookId){
-        System.out.println("book item model" + bookItemModel+ "id: "+ bookId);
+        System.out.println("book ID: =>"+ bookId);
         try {
             BookItemModel bim=bookItemService.save(bookItemModel,bookId);
             return ResponseEntity.ok(bim);
