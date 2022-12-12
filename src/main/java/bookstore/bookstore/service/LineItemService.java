@@ -87,7 +87,14 @@ public class LineItemService {
     }
 
     public List<LineItemModel> findByUsername(String username){
-        return lineItemRepository.findByUsername(username);
+        List<LineItemModel> lineItemModels=lineItemRepository.findByUsername(username);
+        List<LineItemModel> lineItemModelResults=new ArrayList<>();
+        for(LineItemModel lineItemModel:lineItemModels){
+            if(lineItemModel.getBookItemModel()!=null&&lineItemModel.getBookItemModel().getBookModel()!=null){
+                lineItemModelResults.add(lineItemModel);
+            }
+        }
+        return lineItemModelResults;
     }
 
     public List<LineItemModel> findByCartId(int cartId){
