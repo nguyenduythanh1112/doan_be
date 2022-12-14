@@ -34,6 +34,8 @@ public class OrderService {
     private VnPayService vnPayService;
 
     @Autowired
+    private LineItemService lineItemService;
+    @Autowired
     private UserRepository userRepository;
     public OrderModel save(
             int paymentId,
@@ -59,7 +61,14 @@ public class OrderService {
         String createDate = simpleDateFormat.format(calendar.getTime());
 
         long amount=0;
-        for(LineItemModel lineItemModel:cartModel.getLineItemModels()) amount+=lineItemModel.getQuantity()*lineItemModel.getBookItemModel().getExportedPrice();
+//        for(LineItemModel lineItemModel:cartModel.getLineItemModels()) amount+=lineItemModel.getQuantity()*lineItemModel.getBookItemModel().getExportedPrice();
+//        System.out.println(amount);
+//        amount=0;
+        for(LineItemModel lineItemModel:lineItemService.findByUsername(username)){
+            amount+=lineItemModel.getQuantity()*lineItemModel.getBookItemModel().getExportedPrice();
+        }
+        System.out.println(amount);
+
         orderModel.setAmount(amount);
         orderModel.setDate(createDate);
         orderModel.setPaymentModel(paymentModel);

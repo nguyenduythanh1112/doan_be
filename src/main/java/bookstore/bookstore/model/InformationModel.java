@@ -25,4 +25,8 @@ public class InformationModel {
 
     @OneToOne(mappedBy = "informationModel",cascade = CascadeType.ALL)
     private User user;
+
+    public String toString() {
+        return city+"-"+town+"-"+ward+"-"+detailAddress+"-"+phoneNumber+"-"+name;
+    }
 }
