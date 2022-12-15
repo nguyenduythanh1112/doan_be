@@ -48,8 +48,8 @@ public class VnPayService {
             vnp_Params.put("vnp_OrderInfo",VnPayConfig.getRandomNumber(8)+orderModel.getDate());
             vnp_Params.put("vnp_IpAddr", VnPayConfig.getIpAddress(request));
             vnp_Params.put("vnp_CreateDate", orderModel.getDate());
-            vnp_Params.put("vnp_Amount", orderModel.getTotalPrice()+"00");
-
+            vnp_Params.put("vnp_Amount", orderModel.getAmount()+"00");
+            System.out.println(orderModel.getTotalPrice());
             SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyyMMddHHmmss");
             Date date = simpleDateFormat.parse(orderModel.getDate());
             date.setTime(date.getTime()+24*60*60*1000);
@@ -105,17 +105,17 @@ public class VnPayService {
             if (orderModel == null) return IPNResponse.builder().RspCode("01").Message("Order not Found").build();
             if (orderModel.getTotalPrice() * 100 != Long.parseLong(request.getParameter("vnp_Amount")))
                 return IPNResponse.builder().RspCode("04").Message("Invalid Amount").build();
-            if (orderModel.getStatus().equals("yes"))
+            if (orderModel.getStatus().equals("Da thanh toan"))
                 return IPNResponse.builder().RspCode("02").Message("Order already confirmed").build();
             TransactionModel transactionModel = new TransactionModel();
             transactionModel.setBankCode(request.getParameter("vnp_BankCode"));
             transactionModel.setBankTransactionNo(request.getParameter("vnp_BankTranNo"));
             transactionModel.setIdentifyCode(request.getParameter("vnp_TransactionNo"));
-            transactionModel.setStatus("no");
-            orderModel.setStatus("no");
+            transactionModel.setStatus("Thanh toan khong thanh cong");
+            orderModel.setStatus("Thanh toan khong thanh cong");
             if (request.getParameter("vnp_ResponseCode").equals("00")) {
-                transactionModel.setStatus("yes");
-                orderModel.setStatus("yes");
+                transactionModel.setStatus("Da thanh toan Vnpay thanh cong (vui long cho xac nhan)");
+                orderModel.setStatus("Da thanh toan Vnpay thanh cong (vui long cho xac nhan)");
             }
             transactionModel.setOrderModel(orderModel);
             transactionModel.setPaymentModel(orderModel.getPaymentModel());

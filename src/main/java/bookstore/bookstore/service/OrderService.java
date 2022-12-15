@@ -65,10 +65,12 @@ public class OrderService {
 //        System.out.println(amount);
 //        amount=0;
         for(LineItemModel lineItemModel:lineItemService.findByUsername(username)){
-            amount+=lineItemModel.getQuantity()*lineItemModel.getBookItemModel().getExportedPrice();
+            long quality=lineItemModel.getQuantity();
+            long exportPrice=lineItemModel.getBookItemModel().getExportedPrice();
+            long discount=lineItemModel.getBookItemModel().getDiscount();
+            amount+=quality*exportPrice*(1-discount*1.0/100);
         }
-        System.out.println(amount);
-
+        amount+=paymentModel.getAmount()+shipmentModel.getAmount();
         orderModel.setAmount(amount);
         orderModel.setDate(createDate);
         orderModel.setPaymentModel(paymentModel);
@@ -76,9 +78,11 @@ public class OrderService {
         orderModel.setCartModel(cartModel);
         orderModel.setInformationToShip(informationModel.toString());
 
-        if(paymentModel.getType().equals("offline")) orderModel.setStatus("yes");
+        if(paymentModel.getType().equals("offline")) {
+            orderModel.setStatus("Dang cho xu ly (vui long cho xac nhan)");
+        }
         else {
-            orderModel.setStatus("no");
+            orderModel.setStatus("Dang cho xu ly Vnpay (vui long cho giay lat)");
             orderModel.setUrlToPay(vnPayService.makeUrlToPay(orderModel,request));
         }
         OrderModel om=orderRepository.save(orderModel);
@@ -86,9 +90,6 @@ public class OrderService {
             lineItemModel.setOrderModel(om);
             lineItemRepository.save(lineItemModel);
         }
-
-        System.out.println("Save order ok");
-        System.out.println(om.getId());
 
         return om;
     }

@@ -13,7 +13,7 @@ import java.util.List;
 @Table
 @Data
 @NoArgsConstructor
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class ShipmentModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
