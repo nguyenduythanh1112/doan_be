@@ -65,10 +65,23 @@ public class OrderService {
 //        System.out.println(amount);
 //        amount=0;
         for(LineItemModel lineItemModel:lineItemService.findByUsername(username)){
-            long quality=lineItemModel.getQuantity();
-            long exportPrice=lineItemModel.getBookItemModel().getExportedPrice();
-            long discount=lineItemModel.getBookItemModel().getDiscount();
-            amount+=quality*exportPrice*(1-discount*1.0/100);
+            if(lineItemModel.getQuantity()>lineItemModel.getBookItemModel().getBookModel().getRemainQuantity()){
+//                lineItemModel.setBookItemModel(null);
+//                lineItemModel.setCartModel(null);
+                lineItemModel.setQuantity(0);
+                lineItemRepository.save(lineItemModel);
+            }
+            else{
+                int quality=lineItemModel.getQuantity();
+                long exportPrice=lineItemModel.getBookItemModel().getExportedPrice();
+                long discount=lineItemModel.getBookItemModel().getDiscount();
+
+                int exportedQuantity=lineItemModel.getBookItemModel().getBookModel().getExportedQuantity();
+                lineItemModel.getBookItemModel().getBookModel().setExportedQuantity(exportedQuantity+quality);
+                lineItemRepository.save(lineItemModel);
+
+                amount+=quality*exportPrice*(1-discount*1.0/100);
+            }
         }
         amount+=paymentModel.getAmount()+shipmentModel.getAmount();
         orderModel.setAmount(amount);
