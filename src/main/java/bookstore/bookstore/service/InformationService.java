@@ -50,7 +50,7 @@ public class InformationService {
 
     public InformationModel findByUsername(String username) throws Exception{
         InformationModel informationModel=informationRepository.findByUsername(username);
-        if(informationModel==null) throw new Exception("Not found");
+        if(informationModel==null) throw new Exception("Bổ sung thông tin đặt hàng");
         return informationModel;
     }
 

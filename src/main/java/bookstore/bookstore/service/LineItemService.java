@@ -90,7 +90,7 @@ public class LineItemService {
         List<LineItemModel> lineItemModels=lineItemRepository.findByUsername(username);
         List<LineItemModel> lineItemModelResults=new ArrayList<>();
         for(LineItemModel lineItemModel:lineItemModels){
-            if(lineItemModel.getBookItemModel()!=null&&lineItemModel.getBookItemModel().getBookModel()!=null){
+            if(lineItemModel.getBookItemModel()!=null&&lineItemModel.getBookItemModel().getBookModel()!=null&&lineItemModel.getBookItemModel().getStatus().equals("yes")){
                 if(lineItemModel.getQuantity()>lineItemModel.getBookItemModel().getBookModel().getRemainQuantity()){
 //                    lineItemModel.setBookItemModel(null);
 //                    lineItemModel.setCartModel(null);
